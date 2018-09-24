@@ -1,0 +1,186 @@
+{% extends "bootstrap/base.html" %}
+
+<html lang="es">
+
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <title>ReclamosCL DATA</title>
+</head>
+
+<body>
+    <div class="container">
+        <br>
+        <div id="categoria" class="center-block">
+
+            <div class="panel-heading headerbar">
+                <h3 class="text-center">ReclamosCL DATA</h3>
+            </div>
+
+
+            <h4 class="text-center">Herramienta desarrollada para recopilar reclamos desde el sitio web <a href="https://www.reclamos.cl/"
+                    target="_blank">reclamos.cl</a> </h4>
+
+            <hr>
+            <div class="form-group">
+
+
+                <form id="form1" action="/recopilar" method="POST" enctype="multipart/form-data">
+                    <select required class="form-control input-custom-lg input-lg" id="first-choice" name="categoria">
+                        <option selected value="base">Seleccione Categoria</option>
+                        <option value="Educacion">Educacion</option>
+                        <option value="Salud">Salud</option>
+                        <option value="Telecomunicaciones">Telecomunicaciones</option>
+                        <option value="Retail">Retail</option>
+                        <option value="Bancos_y_Financieras">Bancos y Financieras</option>
+                        <option value="Gobierno">Gobierno</option>
+                        <option value="Servicios_Basicos">Servicios Basicos</option>
+                        <option value="Automotriz">Automotriz</option>
+                        <option value="Construccion">Construccion</option>
+                        <option value="Transportes">Transportes</option>
+                    </select>
+
+                    <br>
+
+                    <select required class="form-control input-custom-lg input-lg" id="second-choice" name="subcategoria">
+                        <option disabled selected>Seleccione Subcategoria</option>
+                    </select>
+
+
+                    <br>
+
+                    <p>Ingrese cantidad de datos a recopilar:</p>
+                    <input type="number" class="input-lg input-custom-lg" id="cant_reclamos" name="cant_reclamos" placeholder="Ingrese cantidad"
+                        step="10" value="10" max="1000" min="10" />
+                    <button disabled class="buttonload btn btn-default btn-custom-lg btn-lg pull-right generar" type="submit" value="Recopilar datos" onClick="this.value='Recopilando...';"><i id="load" class="hidden fa fa-circle-o-notch fa-spin"></i> Recopilar datos</button>
+                </form>
+            </div>
+
+
+             {% if descarga is not defined %}
+            <div id="alerta" class="alert alert-warning alert-dismissible hidden">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>¡Recopilando datos!</strong> Esto puede tardar unos minutos dependiendo de la cantidad de datos a recopilar.
+              </div>
+            {% endif %}
+
+
+            {% if subcategoria is defined %}
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong class="text-center">¡Datos Recopilados!</strong>
+              </div>
+
+            <form id="" action="/recopilar/descarga" method="POST" enctype="multipart/form-data">
+                <input class="btn btn-success btn-custom-lg btn-lg btn-block " type="submit" name='descarga' value="Descargar .csv">
+                <select id="t" name="nombre_archivo" style="display:none">
+                    <option value={{ nombre_archivo }}>{{ nombre_archivo }}</option>
+                </select>
+            </form>
+            {% endif %}
+
+        </div>
+    </div>
+    <p class="text-center autor">Desarrollado por Yerko Moena.</p>
+
+</body>
+
+<script type="text/javascript">
+
+
+  $(document).ready(function () {
+        $("#form1").submit(function () {
+            $(".generar").attr("disabled", true);
+            $(".generar").removeClass("btn-info").addClass("btn-danger");
+            $("#alerta").removeClass("hidden");
+            $("#load").removeClass("hidden");
+            $(".generar").value('Recopilando...');
+            return true;
+        });
+    });
+
+
+    var series = [
+{name: 'Educacion', product: 'Universidad'},
+{name: 'Educacion', product: 'Instituto'},
+{name: 'Educacion', product: 'Preuniversitario'},
+{name: 'Educacion', product: 'Todo (PSU,DEMRE,etc)'},
+
+{name: 'Salud', product: 'Isapres'},
+{name: 'Salud', product: 'Hospital'},
+{name: 'Salud', product: 'Cosmeticas'},
+{name: 'Salud', product: 'Farmacias'},
+{name: 'Salud', product: 'Opticas'},
+{name: 'Salud', product: 'Fonasa'},
+{name: 'Salud', product: 'Laboratorios'},
+{name: 'Salud', product: 'Todo (Clinicas,ISP,etc)'},
+
+{name: 'Telecomunicaciones', product: 'Telefonia_Movil'},
+{name: 'Telecomunicaciones', product: 'Todo (DirecTV,VTR,etc)'},
+
+{name: 'Retail', product: 'Grandes_Tiendas'},
+{name: 'Retail', product: 'Supermercado'},
+{name: 'Retail', product: 'Todo (Abcdin,Hites,etc)'},
+
+{name: 'Bancos_y_Financieras', product: 'Cobranzas'},
+{name: 'Bancos_y_Financieras', product: 'Tarjetas_de_Credito'},
+{name: 'Bancos_y_Financieras', product: 'Todo (Bancos,Transbank,etc)'},
+
+{name: 'Gobierno', product: 'Municipalidad'},
+{name: 'Gobierno', product: 'Ministerio'},
+{name: 'Gobierno', product: 'Justicia'},
+{name: 'Gobierno', product: 'Superintendencia'},
+{name: 'Gobierno', product: 'Partidos_Politicos'},
+{name: 'Gobierno', product: 'Todo (Registro Civil,Junaeb,etc)'},
+
+{name: 'Servicios_Basicos', product: 'Electricas'},
+{name: 'Servicios_Basicos', product: 'Aguas'},
+{name: 'Servicios_Basicos', product: 'Gas'},
+{name: 'Servicios_Basicos', product: 'Todo (Gas,Aguas,Electricas)'},
+
+{name: 'Automotriz', product: 'Autopistas'},
+{name: 'Automotriz', product: 'Bencina'},
+{name: 'Automotriz', product: 'Todo (Automotoras,Marcas,etc)'},
+
+{name: 'Construccion', product: 'Constructoras'},
+{name: 'Construccion', product: 'Inmobiliaria'},
+{name: 'Construccion', product: 'Todo'},
+
+{name: 'Transportes', product: 'Logistica y_Distribucion'},
+{name: 'Transportes', product: 'Lineas_Aereas'},
+{name: 'Transportes', product: 'Todo (Buses,Metro,etc)'},
+
+]
+
+$("#first-choice").change(function(){
+	var company = $(this).val();
+	var options =  '<option disabled value=""><strong>Seleccione Subcategoria</strong></option>';
+	$(series).each(function(index, value){
+		if(value.name == company){
+            $("#second-choice").prop("disabled", false);
+            $(".generar").attr("disabled", false);
+            $(".generar").removeClass("btn-default").addClass("btn-info");
+            options += '<option value="'+value.product+'">'+value.product+'</option>';
+            
+		}
+	});
+	
+	$('#second-choice').html(options);
+});
+
+$("select option").each(function() {
+    var $thisOption = $(this);
+    var valueToCompare = "base";
+    if($thisOption.val() == valueToCompare) {
+        $thisOption.attr("disabled", "disabled");
+    }
+});
+
+</script> {% endblock %}
+
+</html>
