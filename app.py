@@ -130,15 +130,13 @@ def obtenerURL(categoria,subcategoria):
                 return "https://www.reclamos.cl/sector/1486?page="
             else:
                 return "https://www.reclamos.cl/transportes?page="
-
-
 def recolectarReclamos(categoria,subcategoria,cant_reclamos):
 
     #Se designa categoria, subcategoria y cantidad de reclamos a obtener
     categoria = categoria.lower()
     subcategoria = subcategoria.lower()
-    CANTIDAD_RECLAMOS = cant_reclamos
-
+    #CANTIDAD_RECLAMOS = cant_reclamos
+    print ('Cantidad de reclamos', cant_reclamos)
     hora = time.strftime("%X")
     hora = hora.replace(':','')[:4]
     print('Hora:', hora)
@@ -212,12 +210,10 @@ def recolectarReclamos(categoria,subcategoria,cant_reclamos):
                 contador = contador + 1
                 print(contador-1,'/',cant_reclamos,' recolectados.')
                 # Cuando se recopila la cantidad de datos pedida, termina el loop
-                if contador-1 == CANTIDAD_RECLAMOS:
+                if int(cant_reclamos)+1 == contador:
+                    print('Fin bucle 1')
                     break
 
-                # Cuando se recopila la cantidad de datos pedida, termina el loop
-            if contador-1 == CANTIDAD_RECLAMOS:
-                break
 
 
         print('Datos Recolectados.')
