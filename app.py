@@ -137,7 +137,7 @@ def recolectarReclamos(categoria,subcategoria,cant_reclamos):
     #Se designa categoria, subcategoria y cantidad de reclamos a obtener
     categoria = categoria.lower()
     subcategoria = subcategoria.lower()
-    CANTIDAD_RECLAMOS = 10
+    CANTIDAD_RECLAMOS = cant_reclamos
 
     hora = time.strftime("%X")
     hora = hora.replace(':','')[:4]
