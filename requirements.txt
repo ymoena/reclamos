@@ -56,7 +56,7 @@ parsel==1.5.0
 parso==0.3.1
 pickleshare==0.7.4
 prompt-toolkit==1.0.15
-psutil==5.4.7
+psutil==5.6.6
 pycodestyle==2.4.0
 pycparser==2.18
 PyDispatcher==2.0.5
