@@ -17,7 +17,7 @@ constantly==15.1.0
 cryptography==2.3.1
 cssselect==1.0.3
 decorator==4.3.0
-Django==2.1.1
+Django==2.2.24
 docutils==0.14
 dominate==2.3.1
 entrypoints==0.2.3
